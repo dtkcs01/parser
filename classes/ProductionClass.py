@@ -37,22 +37,22 @@ class Production(object):
         if(element in self._RHS):
             l = len(self._RHS)
             i = self._RHS.index(element) + 1
-            if((i == l or self._RHS[i].symbol == "$") and self._LHS != element):
+            if(i == l and self._LHS != element):
                 for (follow, _) in self._LHS.follow_set:
-                    element.follow_set = (follow, self)
+                    element.follow_set = (follow, None)
 
             while(i < l):
                 if(self._RHS[i].symbol in self._non_terminals):
                     for (first, _) in self._RHS[i].first_set:
                         if(not first.is_nullable):
-                            element.follow_set = (first, self)
+                            element.follow_set = (first, None)
                 else:
-                    element.follow_set = (self._RHS[i], self)
+                    element.follow_set = (self._RHS[i], None)
                 if(not self._RHS[i].is_nullable):
                     break
                 else:
-                    for follow in self._RHS[i].follow_set:
-                        element.follow_set = follow
+                    for (follow, _) in self._RHS[i].follow_set:
+                        element.follow_set = (follow, None)
                 i += 1
         return False
 

@@ -20,9 +20,7 @@ class Grammer(object):
         for production in productions:
             self._productions.setdefault(production[0], [])
             self._productions[production[0]].append(Production(self._terminals, self._non_terminals, production))
-        for production in self._productions[productions[0][0]]:
-            production.rhs = self._terminals["$"]
-        self._non_terminals[productions[0][0]].follow_set = (self._terminals["$"], self._productions[productions[0][0]][0])
+        self._non_terminals[productions[0][0]].follow_set = (self._terminals["$"], None)
 
     def compute_first_pos(self, non_terminal):
         self._non_terminals[non_terminal].is_discovered = True
@@ -45,8 +43,12 @@ class Grammer(object):
         self._non_terminals[non_terminal].is_discovered = False
 
     def compute_follow_pos(self, productions):
+        non_terminals = []
         for production in productions:
             element = self._non_terminals[production[0]]
+            if(not element in non_terminals):
+                non_terminals.append(element)
+        for element in non_terminals:
             for non_terminal, sub_productions in self._productions.items():
                 for sub_production in sub_productions:
                     sub_production.load_follow(element)
