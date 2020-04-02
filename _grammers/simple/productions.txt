@@ -1,0 +1,8 @@
+E : T _E
+_E : + T _E
+_E : ~
+T : F _T
+_T : * F _T
+_T : ~
+F : id
+F : ( E )
