@@ -1,0 +1,9 @@
+{
+  "grammer-location" : "_grammers",
+  "folder-structure" : {
+    "terminals" : "terminal_list.txt",
+    "non-terminals" : "non_terminal_list.txt",
+    "productions" : "productions.txt",
+    "test-inputs" : "tests.txt"
+  }
+}
