@@ -35,17 +35,17 @@ def load_grammers():
         non_terminals = { production[0]: NonTerminal(production[0]) for production in productions }
         grammers.append(Grammer(terminals, non_terminals, productions, tests))
 
-    parser = Parser(terminals, non_terminals)
-    for test in tests:
-        print()
-        print("####### Testing '{}' #######".format(" ".join(test)))
-        steps = parser.test(test, terminals, non_terminals, productions[0][0])
-        for step in steps:
-            print(step[0], "::", step[1], "=>", step[2])
-            # if(step[-1]):
-            #     print(step[-2])
-        print("####### Test Case 'Accepted' #######")
-        print()
+        parser = Parser(terminals, non_terminals)
+        for test in tests:
+            print()
+            print("####### Testing '{}' #######".format(" ".join(test)))
+            steps = parser.test(test, terminals, non_terminals, productions[0][0])
+            for step in steps:
+                print(step[0], "::", step[1], "=>", step[2])
+                # if(step[-1]):
+                #     print(step[-2])
+            print("####### Test Case 'Accepted' #######")
+            print()
 
 if __name__ == '__main__':
     load_grammers()

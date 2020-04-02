@@ -51,6 +51,12 @@ class Parser(object):
             if(not r_stack in terminals):
                 steps[-1].append("Error : Unknown identifier '{}' in '{}' at index '{}'".format(test_array.pop(0), " ".join(err), (len(err) - len(test_array))))
                 steps[-1].append(True)
+                stack[0].insert(0, l_stack)
+            elif(r_stack == "~"):
+                steps[-1].append("Shift")
+                steps[-1].append(False)
+                stack[1].pop(0)
+                stack[0].insert(0, l_stack)
             elif(l_stack.symbol == r_stack):
                 steps[-1].append("Shift")
                 steps[-1].append(False)
@@ -58,6 +64,10 @@ class Parser(object):
             elif(isinstance(l_stack, Terminal) and l_stack.is_nullable):
                 steps[-1].append("Shift")
                 steps[-1].append(False)
+            elif(isinstance(l_stack, Terminal) and l_stack.symbol != r_stack):
+                steps[-1].append("Error : Invalid Syntax due to identifier '{}' in '{}' at index '{}'".format(test_array.pop(0), " ".join(err), (len(err) - len(test_array))))
+                steps[-1].append(True)
+                stack[0].insert(0, l_stack)
             else:
                 i = self._non_terminal_indexes[l_stack.symbol]
                 j = self._terminal_indexes[r_stack]
@@ -69,4 +79,5 @@ class Parser(object):
                 else:
                     steps[-1].append("Error : Invalid Syntax due to identifier '{}' in '{}' at index '{}'".format(test_array.pop(0), " ".join(err), (len(err) - len(test_array))))
                     steps[-1].append(True)
+                    stack[0].insert(0, l_stack)
         return steps
